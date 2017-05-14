@@ -41,9 +41,9 @@ rankall <- function(outcome, num = "best") {
         ##split the data by state
         oc_dat <- split(oc_dat, oc_dat$state)
                 
-        ##print(oc_dat)
+        ##iterate over the split data to select single row matching num
         h_list <- lapply(oc_dat, function(x) {
-                if(!is.numeric(num)) {
+                ##if(!is.numeric(num)) {
                         if (num == "best")  {
                                 n <- 1
                         } else if (num == "worst") {
@@ -51,14 +51,15 @@ rankall <- function(outcome, num = "best") {
                         } else {
                                 n <- as.numeric(num)
                         }
-                } 
-                ##print(n)
+                ##} 
+                
                 return(x[n, c(1,2)])
+        
         })
         
         
         ##str(h_list) ## we have a list of 54 data frames
-        ##return(h_list) ## before transformation   
+        ##return(h_list) ## to see data before transformation   
         
         final <- do.call("rbind", h_list)
         columns = c("hospital", "state")
