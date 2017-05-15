@@ -1,5 +1,5 @@
-## this function finds single hospital in each state that is ranked (num)
-## and returns it in a grid of states. Used also for finding "best"'" and "worst"
+## This function finds a single hospital  in a single state = "state"
+## for a specific outcome "outcome" which is ranked "num" for that outcome
 
 rankhospital <- function(state, outcome, num = "best") {
         ## Read outcome data and convert "Not Available" to NA
@@ -37,7 +37,6 @@ rankhospital <- function(state, outcome, num = "best") {
         ## Order dataset by state, outcome and  hospital 
         oc_dat <- oc_dat[order(oc_dat$state, oc_dat$outcome, oc_dat$hospital),]
         
-                
         ##iterate over the split data to select single row matching num
         if (num == "best")  {
                 n <- 1
