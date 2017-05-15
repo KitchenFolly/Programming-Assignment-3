@@ -1,7 +1,5 @@
-## Read outcome data
-        ## Check that outcome is valid
-        ## For every state, find the hospital of the given rank num
-        ## Return a data frame with the hospital names and the states
+## this function finds single hospital in each state that is ranked (num)
+## and returns it in a grid of states. Used also for finding "best"'" and "worst"
 
 rankall <- function(outcome, num = "best") {
         ## Read outcome data and convert "Not Available" to NA
@@ -16,8 +14,8 @@ rankall <- function(outcome, num = "best") {
         if ((outcome %in% outcome_list) == FALSE) {
                 stop("invalid outcome")
         }
-        ## subset data by outcome
         
+        ## subset data by outcome
         if (outcome == "heart attack") {
                 oc_dat <- subset(outcome_data[,c(2,7,11)])
                 
@@ -43,29 +41,26 @@ rankall <- function(outcome, num = "best") {
                 
         ##iterate over the split data to select single row matching num
         h_list <- lapply(oc_dat, function(x) {
-                ##if(!is.numeric(num)) {
-                        if (num == "best")  {
-                                n <- 1
-                        } else if (num == "worst") {
-                                n <- nrow(x)
-                        } else {
-                                n <- as.numeric(num)
-                        }
-                ##} 
-                
-                return(x[n, c(1,2)])
-        
+                if (num == "best")  {
+                        n <- 1
+                } else if (num == "worst") {
+                        n <- nrow(x)
+                } else {
+                        n <- as.numeric(num)
+                }
+                (x[n, c(1,2)])
+                ##return(x[n, c(1,2)])
         })
         
+        ## diag - str(h_list) ## we have a list of 54 data frames
+        ## diag - return(h_list) ## to see data before transformation   
         
-        ##str(h_list) ## we have a list of 54 data frames
-        ##return(h_list) ## to see data before transformation   
-        
+        ## format the data as a list of states with single hospital values per
         final <- do.call("rbind", h_list)
         columns = c("hospital", "state")
         rows = state_list
-        
-        print(final)   
+        return(final)
+           
        
 }       
         
